@@ -11,6 +11,7 @@ class Nodo{
         int x;
         int y;
         std::string nombre;
+        char eje;
     public:
         // APUNTADOR AL SIGUIENTE
         Nodo * arriba;
@@ -19,9 +20,10 @@ class Nodo{
         Nodo * derecha;
 
         //CONSTRUCTOR DE LA CLASE NODO DE FILA Y COLUMNA
-        Nodo(int id){
+        Nodo(std::string nombre, int id, char eje){
             this->id = id;
-            this->nombre = "";
+            this->eje = eje;
+            this->nombre = nombre;
             this->arriba = NULL;
             this->abajo = NULL;
             this->izquierda = NULL;
@@ -48,6 +50,9 @@ class Nodo{
 
         int getX() { return this->x; }
         int getY() { return this->y; }
+        
+        char getEje() { return this->eje; }
+        void setEje(char eje) { this->eje = eje; }
 };
 
 
@@ -61,22 +66,22 @@ class MatrizDispersa{
     public:
         // CONSTRUCTOR DE LA CLASE
         MatrizDispersa(){
-            this->inicio =  new Nodo(0);
+            this->inicio =  new Nodo("Inicio", 0, '0');
         }
         
         // Donde x es el numero de fila
         // Donde y es el numero de columna
-        void agregar(int x, int y){
-            // AGREGAR FILAS
-            agregarFila(x);
-            // AGREGAR COLUMNAS
-            agregarColumna(y);
+        void agregar(std::string label, int idEmpleadoX, int idProyectoY){
+            // // AGREGAR FILAS
+            // agregarFila(label, x);
+            // // AGREGAR COLUMNAS
+            // agregarColumna(label, y);
 
             // CONSTRUCTOR DE SOLO STRING
-            Nodo * nuevoNodo = new Nodo("( " +std::to_string(x) + ", " + std::to_string(y)+ " )", x, y);
+            Nodo * nuevoNodo = new Nodo(label, idEmpleadoX, idProyectoY);
 
-            agregarNodoX(nuevoNodo, x, y);
-            agregarNodoY(nuevoNodo, x, y);
+            agregarNodoX(nuevoNodo, idEmpleadoX, idProyectoY);
+            agregarNodoY(nuevoNodo, idEmpleadoX, idProyectoY);
 
         }
 
@@ -86,7 +91,7 @@ class MatrizDispersa{
             try{ temp = this->inicio->abajo; } catch(const std::exception&) { temp = NULL; }
             // Nodo * iterador = NULL;
             while(temp != NULL ){
-                std::cout << temp->getId() << ": ";
+                std::cout << temp->getNombre() << ": ";
                 if(temp->derecha != NULL){
                     Nodo * iterador = temp->derecha;
                     while(iterador != NULL){
@@ -105,7 +110,7 @@ class MatrizDispersa{
             try{ temp = this->inicio->derecha; } catch(const std::exception&) { temp = NULL; }
             // Nodo * iterador = NULL;
             while(temp != NULL ){
-                std::cout << temp->getId() << ": ";
+                std::cout << temp->getNombre() << ": ";
                 if(temp->abajo != NULL){
                     Nodo * iterador = temp->abajo;
                     while(iterador != NULL){
@@ -131,10 +136,9 @@ class MatrizDispersa{
 
 
     // METODOS PRIVADOS PARA QUE NO MOLESTEN
-    private:
         //Crear los nodos que identifiquen la fila
-        void agregarFila(int x){
-            Nodo * actual = new Nodo(x);
+        void agregarFila(std::string label, int x){
+            Nodo * actual = new Nodo(label, x, 'x');
 
             if(this->inicio->abajo == NULL){
                 this->inicio->abajo = actual;
@@ -162,8 +166,8 @@ class MatrizDispersa{
 
         }
         //Crear los nodos que identifiquen la columna
-        void agregarColumna(int y){
-            Nodo * actual = new Nodo(y);
+        void agregarColumna(std::string label, int y){
+            Nodo * actual = new Nodo(label, y, 'y');
             if(this->inicio->derecha == NULL){
                 this->inicio->derecha = actual;
                 actual->izquierda = this->inicio;
@@ -188,6 +192,7 @@ class MatrizDispersa{
 
             }
         }
+        private:
         //Agregar Nodo
         void agregarNodoX(Nodo * nodo, int x, int y){
             Nodo * fila = this->inicio;
@@ -268,7 +273,7 @@ class MatrizDispersa{
             // EJE X-----------------------------------------------------------------------
             try{ temp = this->inicio->abajo; } catch(const std::exception&) { temp = NULL; }
             while(temp != NULL ){            
-                nodos += "X" + std::to_string(temp->getId()) + "[label=\"X"+std::to_string(temp->getId())+"\" width = 1.5 shape =\"square\" style=\"filled\" fillcolor=\"skyblue3\" group=0];\n";
+                nodos += "X" + std::to_string(temp->getId()) + "[label=\""+temp->getNombre()+"\" width = 1.5 shape =\"square\" style=\"filled\" fillcolor=\"skyblue3\" group=0];\n";
                 if(temp->abajo != NULL){
                     conexiones += "X" + std::to_string(temp->getId()) + " -> ";
                 }else{
@@ -282,7 +287,7 @@ class MatrizDispersa{
             try{ temp = this->inicio->derecha; } catch(const std::exception&) { temp = NULL; }
             // Nodo * iterador = NULL;
             while(temp != NULL ){
-                nodos += "Y" + std::to_string(temp->getId()) + "[label=\"Y"+std::to_string(temp->getId())+"\" width = 1.5 shape =\"square\" style=\"filled\" fillcolor=\"skyblue3\" group=\""+std::to_string(temp->getId())+"\"];\n";
+                nodos += "Y" + std::to_string(temp->getId()) + "[label=\""+temp->getNombre()+"\" width = 1.5 shape =\"square\" style=\"filled\" fillcolor=\"skyblue3\" group=\""+std::to_string(temp->getId())+"\"];\n";
                 rank += "Y" + std::to_string(temp->getId()) + ";";
                 if(temp->derecha != NULL){
                     conexiones += "Y" + std::to_string(temp->getId()) + " -> ";
@@ -370,16 +375,23 @@ int main(){
     
     MatrizDispersa * matriz =  new MatrizDispersa();
 
-    matriz->agregar(4,5);
-    matriz->agregar(2,1);
-    matriz->agregar(1,3);
-    matriz->agregar(2,6);
-    matriz->agregar(3,5);
-    matriz->agregar(4,4);
-    matriz->agregar(1,4);
-    matriz->agregar(2,3);
-    matriz->agregar(2,5);
-    matriz->agregar(4,3);
+
+    //AGREGAR CABECERAS EMPLEADOS
+    matriz->agregarFila("E-1", 1);
+    matriz->agregarFila("E-4", 4);
+    matriz->agregarFila("E-2", 2);
+    matriz->agregarFila("E-3", 3);
+    //AGREGAR CABECERAS DE PROYECTOS
+    matriz->agregarColumna("P-1", 1);
+    matriz->agregarColumna("P-4", 4);
+    matriz->agregarColumna("P-2", 2);
+    matriz->agregarColumna("P-3", 3);
+    //AGREGAR NODOS DENTRO
+    matriz->agregar("E1-P2",1,2);
+    matriz->agregar("E2-P1",2,1);
+    matriz->agregar("E1-P1",1,1);
+    matriz->agregar("E3-P4",3,4);
+    matriz->agregar("E4-P3",4,3);
 
     // matriz->printX();    
     // matriz->printY();
