@@ -11,7 +11,7 @@
 - [Cola](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/pila-cola/cola)
 - Algoritmos de Ordenamiento
 - [Matriz Dispersa](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/matriz-dispersa)
-- Árbol Binario
+- [Árbol Binario](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-binario)
 - Árbol AVL
 - Árbol N-Ario
 - Tablas Hash
