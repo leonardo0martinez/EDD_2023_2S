@@ -9,16 +9,17 @@
 - [Lista Enlazada Circular](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/listas/lista-circular)
 - [Pila](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/pila-cola/pila)
 - [Cola](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/pila-cola/cola)
-- Algoritmos de Ordenamiento
 - [Matriz Dispersa](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/matriz-dispersa)
 - [Árbol Binario](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-binario)
-- Árbol AVL
-- Árbol N-Ario
-- Tablas Hash
+- [Árbol AVL](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-avl)
+- [Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
+- [Tablas Hash](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/tabla-hash)
 - Grafo No Dirigido
 - Block Chain
 
 ## Ayudas Extra
+- [Gráfica Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
+- [Interfaz Figma](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/ejemplo-figma)
 <!-- - [Manejo de Carpetas](https://github.com/leonardo0martinez/EDD_1S_2023/tree/master/n-ary-tree)
 - Edición de Archivos TXT
 - [Grafo no dirigido con Carpetas](https://github.com/leonardo0martinez/EDD_1S_2023/tree/master/non-directed-graph)
