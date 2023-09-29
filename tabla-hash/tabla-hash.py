@@ -75,7 +75,7 @@ class TablaHash:
         utilizacion = int(self.capacidad_actual * 0.7) # PORCENTAJE DE UTILIZACION
         if self.espacios_usados > utilizacion:
             self.capacidad_actual = self.siguiente_fibonacci(self.capacidad_actual) # SIGUIENTE EN LA SUCESIÓN DE FIBONACCI
-            print("Nueva Capacidad", self.capacidad_actual, "Ocupados", self.espacios_usados, "Max Permitido:", utilizacion)
+            #print("Nueva Capacidad", self.capacidad_actual, "Ocupados", self.espacios_usados, "Max Permitido:", utilizacion)
             self.espacios_usados = 0
             tabla_vieja = self.tabla # ARRAY ANTERIOR
             self.tabla = [None] * self.capacidad_actual # CREAR NUEVO ARRAY CON LA NUEVO TAMAÑO
@@ -89,12 +89,29 @@ class TablaHash:
             a, b = b, b + a
             if b > n:
                 return b 
-    
-
+    # METODO BUSCAR TABLA HASH
+    def buscar(self, codigo:str):
+        indice =  self.calcular_indice(codigo)
+        if indice < self.capacidad_actual:
+            if(self.tabla[indice] is not None and self.tabla[indice].codigo == codigo):
+                return self.tabla[indice]
+            else:
+                contador = 1
+                nuevo_indice = indice + int(math.pow(contador, 2))
+                # NUEVO INDICE NO PUEDE ITERAR MÁS QUE LA CAPACIDAD ACTUAL 
+                try:
+                    while self.tabla[nuevo_indice].codigo != codigo or contador > self.capacidad_actual:
+                        contador += 1
+                        nuevo_indice = nuevo_indice + int(math.pow(contador, 2))
+                        nuevo_indice = self.verificar_indice(nuevo_indice) # EVITAR QUE SE ENCICLE :P
+                    if(self.tabla[nuevo_indice] is not None and self.tabla[nuevo_indice].codigo == codigo):
+                        return self.tabla[nuevo_indice]
+                except:
+                    print("Error en busqueda!")
+        return None # por si no lo encuentra
+            
 
 tabla = TablaHash()
-
-
 tabla.insertar("ADMIN-1", Empleado("ADMIN-1", "admin1", "admin1"))
 tabla.insertar("ADMIN-2", Empleado("ADMIN-2", "admin2", "admin2"))
 tabla.insertar("ADMIN-3", Empleado("ADMIN-3", "admin3", "admin3"))
@@ -125,5 +142,6 @@ tabla.insertar("QA-4", Empleado("QA-4", "QA4", "QA4"))
 tabla.insertar("QA-5", Empleado("QA-5", "QA5", "QA5"))
 tabla.insertar("QA-6", Empleado("QA-6", "QA6", "QA6"))
 
-print(tabla)
-print("TAMANIO:", tabla.espacios_usados)
+print(tabla.buscar("ADMIN-5"))
+# print(tabla)
+# print("TAMANIO:", tabla.espacios_usados)
