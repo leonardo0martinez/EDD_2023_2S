@@ -14,16 +14,12 @@
 - [Árbol AVL](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-avl)
 - [Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
 - [Tablas Hash](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/tabla-hash)
-- Grafo No Dirigido
+- [Grafo No Dirigido / Árbol N-Ario (Ejemplo de Carpetas)](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-n-ario)
 - Block Chain
 
 ## Ayudas Extra
 - [Gráfica Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
 - [Interfaz Figma](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/ejemplo-figma)
-<!-- - [Manejo de Carpetas](https://github.com/leonardo0martinez/EDD_1S_2023/tree/master/n-ary-tree)
-- Edición de Archivos TXT
-- [Grafo no dirigido con Carpetas](https://github.com/leonardo0martinez/EDD_1S_2023/tree/master/non-directed-graph)
-- [Chat con BlockChain](https://github.com/leonardo0martinez/EDD_1S_2023/tree/master/block-chain) | [Video de Explicacion](https://drive.google.com/file/d/1e82mn9Kt9BcHPpWaiI4d9O5lx0NwFNwv/view?usp=sharing) -->
 
 ## Lenguajes de Programación
 - C++
