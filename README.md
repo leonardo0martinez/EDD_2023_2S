@@ -15,7 +15,7 @@
 - [Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
 - [Tablas Hash](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/tabla-hash)
 - [Grafo No Dirigido / Árbol N-Ario (Ejemplo de Carpetas)](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-n-ario)
-- Block Chain
+- [Block Chain](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/block-chain)
 
 ## Ayudas Extra
 - [Gráfica Árbol B](https://github.com/leonardo0martinez/EDD_2023_2S/tree/main/arbol-b)
