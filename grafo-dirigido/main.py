@@ -16,13 +16,13 @@ grafoAntecesores.verMatriz()
 grafoAntecesores.Grafico("antecesores")
 
 
-print('\n')
-for valor in vertices:
-    grafoSucesores.insertarFila(valor)
-grafoSucesores.agregarNodo("T1-PY-100","T3-PY-100")
-grafoSucesores.agregarNodo("T2-PY-100","T3-PY-100")
-grafoSucesores.agregarNodo("T3-PY-100","T5-PY-100")
-grafoSucesores.agregarNodo("T4-PY-100","T5-PY-100")
-print("Tareas con sus sucesores")
-grafoSucesores.verMatriz()
-grafoSucesores.Grafico("sucesores")
+# print('\n')
+# for valor in vertices:
+#     grafoSucesores.insertarFila(valor)
+# grafoSucesores.agregarNodo("T1-PY-100","T3-PY-100")
+# grafoSucesores.agregarNodo("T2-PY-100","T3-PY-100")
+# grafoSucesores.agregarNodo("T3-PY-100","T5-PY-100")
+# grafoSucesores.agregarNodo("T4-PY-100","T5-PY-100")
+# print("Tareas con sus sucesores")
+# grafoSucesores.verMatriz()
+# grafoSucesores.Grafico("sucesores")

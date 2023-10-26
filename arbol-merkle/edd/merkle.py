@@ -1,6 +1,6 @@
 from datetime import datetime
 import hashlib
-
+import math
 # INFORMACION QUE DEBE DE TENER EL NODO
 # ● Fecha y hora de Pago
 # ● ID de la billetera del empleado a cargo
@@ -24,59 +24,63 @@ class Transaccion:
         cadena += self.monto_pagado
         cadena += self.id_proyecto
         return hashlib.sha3_256(cadena.encode()).hexdigest()
+    
+    def label(self):
+        return f"{str(self.fecha_hora)} \\n {self.id_cartera} \\n Q. {self.monto_pagado} \\n {self.id_proyecto}"
+    # QUE ESTA PASANDO
+    def __str__(self):
+        return f"{str(self.fecha_hora)} - {self.id_cartera} -  {self.id_proyecto} - {self.hash}"
+    
 
-# CLASE DE ARBOL
-class Merkle:
-    # CONSTRUCTOR
+class ArbolMerkle:
+
     def __init__(self):
-        self.raiz = None
-    # METODO INSERTAR
+        self.raiz =  None
+        self.transacciones = []
+    
+    def crear_arbol(self, transacciones=[]):
+        # COPIA DE ARRAY
+        self.transacciones = transacciones
+        # INSERCION
+        while len(transacciones) > 1:
+            nuevos_nodos = [] # temporal
+            for i in range(0, len(transacciones), 2): # VA IR EN PARES
+                nodo_izq = transacciones[i]
+                nodo_der = transacciones[i + 1] if i + 1 < len(transacciones) else None
+                
+                nuevo_nodo = Transaccion("", "", "")
+                nuevo_nodo.izquierda = nodo_izq
+                nuevo_nodo.derecha = nodo_der
+                
+                mensaje = f"{nodo_izq.hash}{nodo_der.hash if nodo_der else ''}".encode('utf-8')
+                nuevo_nodo.hash = hashlib.sha256(mensaje).hexdigest()
+                
+                nuevos_nodos.append(nuevo_nodo)
+            transacciones = nuevos_nodos
+        self.raiz = transacciones[0]
+    
+    def generar_dot(self, nodo=None, dot_content=None):
+        if dot_content is None:
+            dot_content = "digraph MerkleTree {\n node[shape=record];"
 
-    def insertar(self, id_cartera: str, monto_pagado: str, id_proyecto: str):
-        nuevo_nodo = Transaccion(id_cartera, monto_pagado, id_proyecto)
-        if self.raiz is None:
-            self.raiz = nuevo_nodo
+        if nodo is None:
+            nodo = self.raiz
+
+        if nodo.id_cartera == "" :
+            len_hash = len(nodo.hash)
+            lbl = nodo.hash[:math.floor(len_hash/2)] + "\\n" + nodo.hash[math.floor(len_hash/2):]
+            dot_content += f'  "{nodo.hash}" [label="{lbl}"];\n'
         else:
-            # COLA PARA LA INSERCION
-            cola = [self.raiz]
-            while cola:
-                actual = cola.pop(0)
+            dot_content += f'  "{nodo.hash}" [label="{nodo.label()}"];\n'
 
-                if actual.izquierda is None:
-                    actual.izquierda = nuevo_nodo
-                    break
-                elif actual.derecha is None:
-                    actual.derecha = nuevo_nodo
-                    break
-                else:
-                    cola.append(actual.izquierda)
-                    cola.append(actual.derecha)
-        self.actualizar_hashes()
+        if nodo.izquierda:
+            dot_content += f'  "{nodo.izquierda.hash}" [label="{nodo.izquierda.label()}"];\n'
+            dot_content += f'  "{nodo.hash}" -> "{nodo.izquierda.hash}"; \n'
+            dot_content = self.generar_dot(nodo.izquierda, dot_content)
 
-    def actualizar_hashes(self):
-        nodo = [self.raiz]
-        while nodo:
-            actual = nodo.pop(0)
-            if actual.izquierda:
-                nodo.append(actual.izquierda)
-            if actual.derecha:
-                nodo.append(actual.derecha)
-            # ASIGNACIONES
-            hash_izquierda = actual.izquierda.hash if actual.izquierda else ""
-            hash_derecha = actual.derecha.hash if actual.derecha else ""
-            # JUNTAR HASHES
-            # concat_hash = ""
-            # if hash_izquierda:
-            #     concat_hash += hash_izquierda
-            # if hash_derecha:
-            #     concat_hash += hash_derecha
-            actual.hash = hashlib.sha3_256(((hash_izquierda + hash_derecha)).encode('UTF-8')).hexdigest()
-    
-    def imprimir(self):
-        self._imprimit_rec(self.raiz, 0)
-    
-    def _imprimit_rec(self, nodo:Transaccion, nivel:int):
-        if nodo is not None:
-            self._imprimit_rec(nodo.derecha, nivel + 1)
-            print(" " * nivel + f"{nodo.id_cartera} ({nodo.hash})")
-            self._imprimit_rec(nodo.izquierda, nivel + 1)
+        if nodo.derecha:
+            dot_content += f'  "{nodo.derecha.hash}" [label="{nodo.derecha.label()}"];\n'
+            dot_content += f'  "{nodo.hash}" -> "{nodo.derecha.hash}" ;\n'
+            dot_content = self.generar_dot(nodo.derecha, dot_content)
+        return dot_content
+
